@@ -13,12 +13,34 @@ constructor()
   // To ensure that we have all the necessary features from REact to create a stateful component, we need to call a method super(). This super() calls the constructor for teh Component class in react.
   super();
 
+  this.state = {
+    userName:  "Jacob",
+    todoItems: [
+      {action: "Mow", done: false},
+      {action: "Replace Porch Light", done: false},
+      {action: "Install Kitchen Light", done: false},
+      {action: "Stain Deck", done: false},
+      {action: "Repair Fridge", done: true}
+    ]
+  }
+
 } //end of constructor
 
 
   //when using fat arrow (lambda) syntax the return keyword is not needed and the curly braces (scope) around the body of the function is also not needed.
   render = () => 
     <div>
-
+        <ToDoBanner 
+          displayName = {this.state.userName}
+          tasks = {this.state.todoItems}
+        />
     </div>
+};//end of app component
+
+
+export class ToDoBanner extends Component{
+  render = () =>
+    <h4 className="bg-primary text-white text-center p-2">
+      {this.props.displayName}'s To Do List ({this.props.tasks.filter(taskx => !taskx.done).length} Items To Do)
+    </h4>
 };
