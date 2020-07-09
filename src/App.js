@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {ToDoBanner} from "./ToDoBanner"
+import {ToDoRow} from "./ToDoRow"
 
 export default class App extends Component{
   // Above we have created a class called App that extends the functionality of the Compoonent Class.
@@ -26,6 +28,18 @@ constructor()
 
 } //end of constructor
 
+  //  If the ToDoRow Component's "done" property experiences a change eveent (checking the done box in the UI), then the ToDoRow component calls a Callback method called toggleTodo (below) and passes toggleTodo the checked todo item
+  todoTableRows = (isTaskDone) => this.state.todoItems.filter(x => x.done === isTaskDone).map(notCompleted => <ToDoRow 
+    key = {notCompleted.action}
+    item = {notCompleted}
+    callback = {this.toggleTodo}
+  />)
+
+  //  The toggleTodo method is invoked as a  callback when the ToDoRow component hasa change event to the "done" property
+  //.setState allows the data to be updated 
+  toggleTodo = (todo) => this.setState({
+    todoItems: this.state.todoItems.map(item => item.action === todo.action ? {...item, done: !item.done} : item)
+  });
 
   //when using fat arrow (lambda) syntax the return keyword is not needed and the curly braces (scope) around the body of the function is also not needed.
   render = () => 
@@ -34,13 +48,20 @@ constructor()
           displayName = {this.state.userName}
           tasks = {this.state.todoItems}
         />
+
+        <table className="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.todoTableRows(false)}
+          </tbody>
+        </table>
+
     </div>
 };//end of app component
 
 
-export class ToDoBanner extends Component{
-  render = () =>
-    <h4 className="bg-primary text-white text-center p-2">
-      {this.props.displayName}'s To Do List ({this.props.tasks.filter(taskx => !taskx.done).length} Items To Do)
-    </h4>
-};
