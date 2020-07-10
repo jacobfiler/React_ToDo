@@ -92,6 +92,17 @@ componentDidMount = () => {
             {this.todoTableRows(false)}
           </tbody>
         </table>
+        <table className="table table-striped table-bordered drop-shadow">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>ReAdd</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.todoTableRows(true)}
+          </tbody>
+        </table>
         </div>
     </div>
 };//end of app component
