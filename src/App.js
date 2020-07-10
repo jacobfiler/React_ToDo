@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {ToDoBanner} from "./ToDoBanner"
 import {ToDoRow} from "./ToDoRow"
+import {ToDoCreator} from "./ToDoCreator";
 
 export default class App extends Component{
   // Above we have created a class called App that extends the functionality of the Compoonent Class.
@@ -41,15 +42,46 @@ constructor()
     todoItems: this.state.todoItems.map(item => item.action === todo.action ? {...item, done: !item.done} : item)
   });
 
+  //  Method below is the callback for the ToDoCreator componenet
+  createNewTodoCallback = (newTask) => {
+    if (!this.state.todoItems.find(x => x.action === this.state.newItemText)) {
+      this.setState({
+        //  The spread operator {...} below expands the array of todoItems and adds the new item to the array
+        todoItems: [...this.state.todoItems, {action: newTask, done: false}]
+      },
+      () => localStorage.setItem("todos", JSON.stringify(this.state))//end setitem
+      );// end of setstate
+    }
+  }
+
+//  The method below is a built in React method to handle logic for when the app "mounts" or "loads"
+componentDidMount = () => {
+  let data = localStorage.getItem("todos");
+  this.setState(data != null ? JSON.parse(data) : {
+    userName: "Ted",
+    todoItems: [
+      {action: "Go Fishing", done: false},
+      {action: "Go Hunting", done: false},
+      {action: "Go Sailing", done: false}
+    ]
+  })
+}
+
+
   //when using fat arrow (lambda) syntax the return keyword is not needed and the curly braces (scope) around the body of the function is also not needed.
   render = () => 
     <div>
-        <ToDoBanner 
-          displayName = {this.state.userName}
-          tasks = {this.state.todoItems}
-        />
+      <ToDoBanner 
+        displayName = {this.state.userName}
+        tasks = {this.state.todoItems}
+      />
+      {/*This is feature 5*/}
+      <ToDoCreator
+        callback = {this.createNewTodoCallback}
+      />
 
-        <table className="table table-striped table-bordered">
+      <div className="col-md-8 offset-md-2">
+        <table className="table table-striped table-bordered drop-shadow">
           <thead>
             <tr>
               <th>Description</th>
@@ -60,7 +92,7 @@ constructor()
             {this.todoTableRows(false)}
           </tbody>
         </table>
-
+        </div>
     </div>
 };//end of app component
 
