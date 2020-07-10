@@ -20,7 +20,7 @@ export class ToDoCreator extends Component {
     render = () =>
         <div className="my-1 col-md-8 offset-md-2 ">
             <div className="form-row">
-                <input className="form-control offset-md-3 col-md-5" value={this.state.newItemText}
+                <input className="form-control offset-md-1 col-md-5" value={this.state.newItemText}
                 onChange={this.updateNewTextValue} />
                 <button className="btn btn-outline-primary mt-1 offset-md-1" onClick={this.createNewTodo}>
                     Add

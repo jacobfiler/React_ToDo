@@ -4,6 +4,7 @@ import './App.css';
 import {ToDoBanner} from "./ToDoBanner"
 import {ToDoRow} from "./ToDoRow"
 import {ToDoCreator} from "./ToDoCreator";
+import {VisabilityControl} from "./VisibilityControl";
 
 export default class App extends Component{
   // Above we have created a class called App that extends the functionality of the Compoonent Class.
@@ -63,7 +64,8 @@ componentDidMount = () => {
       {action: "Go Fishing", done: false},
       {action: "Go Hunting", done: false},
       {action: "Go Sailing", done: false}
-    ]
+    ],
+    showCompleted: true
   })
 }
 
@@ -92,6 +94,16 @@ componentDidMount = () => {
             {this.todoTableRows(false)}
           </tbody>
         </table>
+        <div className = "bg-secondary text-white text-center p-2">
+          <VisabilityControl 
+            description="Completed Tasks"
+            isChecked={this.state.showCompleted}
+            callback={checked => this.setState({
+              showCompleted: checked
+            })}
+          />
+        </div>
+        {this.state.showCompleted &&
         <table className="table table-striped table-bordered drop-shadow">
           <thead>
             <tr>
@@ -103,6 +115,7 @@ componentDidMount = () => {
             {this.todoTableRows(true)}
           </tbody>
         </table>
+        }
         </div>
     </div>
 };//end of app component
